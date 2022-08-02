@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Free URL shortener to create short URLs and share short links in one simple click.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node ./shortly-back/src/index.js",
     "dev": "nodemon ./shortly-back/src/index.js"
