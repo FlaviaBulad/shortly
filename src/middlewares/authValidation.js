@@ -3,7 +3,7 @@ import { signUpSchema, signInSchema } from "../schemas/authSchemas.js";
 import db from "../database/postgres.js";
 import bcrypt from "bcrypt";
 
-export async function ValidateRegister(req, res, next) {
+export async function signUpBodyValidation(req, res, next) {
   const newUser = req.body;
 
   const validate = signUpSchema.validate(newUser, { abortEarly: false });
@@ -11,18 +11,28 @@ export async function ValidateRegister(req, res, next) {
   if (validate.error) {
     return res.status(422).send("Reveja os campos");
   }
-
-  const emailAlreadyRegistered = await db
-    .collection("users")
-    .findOne({ email: newUser.email });
-
-  if (emailAlreadyRegistered) {
-    return res.status(422).send("Email já cadastrado");
-  }
   next();
 }
 
-export async function ValidateLogin(req, res, next) {
+export async function emailValidation(req, res, next) {
+  try {
+    const { email } = req.body;
+
+    const { rowCount } = await db.query(
+      `SELECT * FROM users WHERE email = $1`,
+      [email]
+    );
+
+    if (rowCount !== 0) {
+      return res.status(409).send("Email já cadastrado!");
+    }
+    next();
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+}
+
+export async function signInBodyValidation(req, res, next) {
   const user = req.body;
 
   const validate = signInSchema.validate(user, { abortEarly: false });
@@ -31,20 +41,25 @@ export async function ValidateLogin(req, res, next) {
     return res.status(422).send("Reveja os campos");
   }
 
-  const registeredUser = await db
-    .collection("users")
-    .findOne({ email: user.email });
-
-  if (!registeredUser) {
-    return res.status(422).send("Email ou senha inválidos");
-  }
-
-  const correctPassword = bcrypt.compareSync(
-    user.password,
-    registeredUser.password
-  );
-  if (!correctPassword) {
-    return res.status(422).send("Email ou senha inválidos");
-  }
   next();
+}
+
+export async function signInValidation(req, res, next) {
+  try {
+    const { email, password } = req.body;
+
+    const { rowCount, rows: users } = await db.query(
+      `SELECT * FROM users WHERE email  = $1`,
+      [email]
+    );
+
+    if (rowCount === 0 || bcrypt.compareSync(password, users[0].password)) {
+      return res.status(401).send("Email ou senha incorretos!");
+    }
+    res.locals.userId = users[0].id;
+
+    next();
+  } catch (error) {
+    return res.sendStatus(500);
+  }
 }
