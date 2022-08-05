@@ -1,6 +1,6 @@
 import { signUpSchema, signInSchema } from "../schemas/authSchemas.js";
 
-import db from "../database/postgres.js";
+import connection from "../database/postgres.js";
 import bcrypt from "bcrypt";
 
 export async function signUpBodyValidation(req, res, next) {
@@ -18,7 +18,7 @@ export async function emailValidation(req, res, next) {
   try {
     const { email } = req.body;
 
-    const { rowCount } = await db.query(
+    const { rowCount } = await connection.query(
       `SELECT * FROM users WHERE email = $1`,
       [email]
     );
@@ -48,7 +48,7 @@ export async function signInValidation(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const { rowCount, rows: users } = await db.query(
+    const { rowCount, rows: users } = await connection.query(
       `SELECT * FROM users WHERE email  = $1`,
       [email]
     );
