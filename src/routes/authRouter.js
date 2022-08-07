@@ -2,10 +2,7 @@ import { Router } from "express";
 
 import { createUser, login } from "../controllers/authController.js";
 
-import {
-  emailValidation,
-  signInValidation,
-} from "../middlewares/authValidation.js";
+import { validateEmail } from "../middlewares/authValidation.js";
 
 import { validadeSchema } from "../middlewares/authSchemaValidator.js";
 
@@ -15,16 +12,11 @@ import loginSchema from "../schemas/loginSchema.js";
 const authRouter = Router();
 
 authRouter.post(
-  "signup",
+  "/signup",
   validadeSchema(signUpSchema),
-  emailValidation,
+  validateEmail,
   createUser
 );
-authRouter.post(
-  "/signin",
-  validadeSchema(loginSchema),
-  signInValidation,
-  login
-);
+authRouter.post("/signin", validadeSchema(loginSchema), login);
 
 export default authRouter;
