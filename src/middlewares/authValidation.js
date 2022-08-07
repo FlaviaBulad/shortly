@@ -1,18 +1,8 @@
 import { signUpSchema, signInSchema } from "../schemas/authSchemas.js";
 
 import connection from "../database/postgres.js";
+
 import bcrypt from "bcrypt";
-
-export async function signUpBodyValidation(req, res, next) {
-  const newUser = req.body;
-
-  const validate = signUpSchema.validate(newUser, { abortEarly: false });
-
-  if (validate.error) {
-    return res.status(422).send("Reveja os campos");
-  }
-  next();
-}
 
 export async function emailValidation(req, res, next) {
   try {
@@ -23,25 +13,13 @@ export async function emailValidation(req, res, next) {
       [email]
     );
 
-    if (rowCount !== 0) {
+    if (rowCount > 0) {
       return res.status(409).send("Email já cadastrado!");
     }
     next();
   } catch (error) {
     return res.sendStatus(500);
   }
-}
-
-export async function signInBodyValidation(req, res, next) {
-  const user = req.body;
-
-  const validate = signInSchema.validate(user, { abortEarly: false });
-
-  if (validate.error) {
-    return res.status(422).send("Reveja os campos");
-  }
-
-  next();
 }
 
 export async function signInValidation(req, res, next) {
