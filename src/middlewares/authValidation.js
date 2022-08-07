@@ -1,19 +1,15 @@
-import { signUpSchema, signInSchema } from "../schemas/authSchemas.js";
-
 import connection from "../database/postgres.js";
-
 import bcrypt from "bcrypt";
+
+import userRepository from "../../repositories/userRepository.js";
 
 export async function emailValidation(req, res, next) {
   try {
-    const { email } = req.body;
+    const user = req.body;
 
-    const { rowCount } = await connection.query(
-      `SELECT * FROM users WHERE email = $1`,
-      [email]
-    );
+    const emailExists = userRepository.getUserEmail(user.email);
 
-    if (rowCount > 0) {
+    if (emailExists > 0) {
       return res.status(409).send("Email já cadastrado!");
     }
     next();
