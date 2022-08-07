@@ -8,6 +8,12 @@ export async function createUser(req, res) {
   const user = req.body;
 
   try {
+    const emailRegistered = userRepository.getUserEmail(user.email);
+
+    if (emailRegistered > 0) {
+      return res.status(409).send("Email já cadastrado");
+    }
+
     const { name, email, password } = user;
     await userRepository.createUser(name, email, password);
     res.sendStatus(201);

@@ -1,21 +1,6 @@
 import userRepository from "../../repositories/userRepository.js";
 import sessionRepository from "../../repositories/sessionRepository.js";
 
-export async function validateEmail(req, res, next) {
-  try {
-    const user = req.body;
-
-    const emailRegistered = userRepository.getUserEmail(user.email);
-
-    if (emailRegistered > 0) {
-      return res.status(409).send("Email já cadastrado");
-    }
-    next();
-  } catch (error) {
-    return res.sendStatus(500);
-  }
-}
-
 export async function validateToken(req, res, next) {
   const authorization = req.headers.authorization;
   const token = authorization?.replace("Bearer ", "");

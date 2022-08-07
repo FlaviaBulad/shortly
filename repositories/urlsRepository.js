@@ -1,4 +1,4 @@
-import connection from "../database/postgres.js";
+import connection from "../src/database/postgres.js";
 
 async function createShortUrl(url, shortUrl, id) {
   return connection.query(

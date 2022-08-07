@@ -1,4 +1,5 @@
-import connection from "../database/postgres.js";
+import connection from "../src/database/postgres.js";
+
 import bcrypt from "bcrypt";
 
 async function getUserEmail(email) {

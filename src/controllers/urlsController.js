@@ -1,7 +1,6 @@
 import urlsRepository from "../../repositories/urlsRepository.js";
 
 import { nanoid } from "nanoid";
-import { Connection } from "pg";
 
 export async function shortenUrl(req, res) {
   const { id } = res.locals.user;
