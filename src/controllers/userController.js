@@ -9,17 +9,17 @@ export async function getUserById(req, res) {
   }
 
   try {
-    const visitResult = await urlsRepository.getVisitByUser(id);
-    const [visitors] = visitResult.rows;
+    const visitResult = await urlsRepository.getVisitCountByUser(id);
+    const [visitCount] = visitResult.rows;
 
-    const urlsResult = await urlsRepository.getUserUrl(id);
+    const urlsResult = await urlsRepository.getURLSbyUser(id);
     const userUrls = urlsResult.rows;
 
     res.send({
       id: user.id,
       name: user.name,
-      visitors: visitors.sum || 0,
-      shortUrl: userUrls,
+      visitCount: visitCount.sum || 0,
+      shortenedUrls: userUrls,
     });
   } catch (error) {
     console.log(error);
