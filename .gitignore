@@ -2,3 +2,4 @@
 .prettierrc.json
 .env
 db.sql
+latest.dump
