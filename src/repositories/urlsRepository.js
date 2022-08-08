@@ -19,7 +19,8 @@ async function getUrlId(id) {
 
 async function setVisitors(urlId) {
   return connection.query(
-    `UPDATE urls SET "VisitCount" = "VisitCount" + 1 WHERE id = $1`,
+    `UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE id = $1`,
+
     [urlId]
   );
 }
@@ -36,7 +37,8 @@ async function getUserUrl(userId) {
 
 async function getVisitByUser(userId) {
   return connection.query(
-    `SELECT SUM(u."VisitCount") FROM urls WHERE u."userId" = $1`,
+    `SELECT SUM(u."visitCount") FROM urls WHERE u."userId" = $1`,
+
     [userId]
   );
 }
