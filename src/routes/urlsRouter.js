@@ -6,7 +6,7 @@ import {
   shortenUrl,
 } from "../controllers/urlsController.js";
 
-import { validateSchema } from "../middlewares/authSchemaValidator.js";
+import { validateSchema } from "../middlewares/schemaValidation.js";
 import { validateToken } from "../middlewares/authValidation.js";
 
 import urlSchema from "../schemas/urlSchema.js";

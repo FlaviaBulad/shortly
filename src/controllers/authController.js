@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 import bcrypt from "bcrypt";
 
-import userRepository from "../../repositories/userRepository.js";
-import sessionRepository from "../../repositories/sessionRepository.js";
+import userRepository from "../repositories/userRepository.js";
+import sessionRepository from "../repositories/sessionRepository.js";
 
 export async function createUser(req, res) {
   const user = req.body;
@@ -10,7 +10,7 @@ export async function createUser(req, res) {
   try {
     const emailRegistered = userRepository.getUserEmail(user.email);
 
-    if (emailRegistered > 0) {
+    if (emailRegistered.rowCount > 0) {
       return res.status(409).send("Email já cadastrado");
     }
 

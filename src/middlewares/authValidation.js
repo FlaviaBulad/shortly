@@ -1,5 +1,5 @@
-import userRepository from "../../repositories/userRepository.js";
-import sessionRepository from "../../repositories/sessionRepository.js";
+import userRepository from "../repositories/userRepository.js";
+import sessionRepository from "../repositories/sessionRepository.js";
 
 export async function validateToken(req, res, next) {
   const authorization = req.headers.authorization;
