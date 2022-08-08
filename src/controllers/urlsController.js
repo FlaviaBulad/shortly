@@ -1,4 +1,4 @@
-import urlsRepository from "../../repositories/urlsRepository.js";
+import urlsRepository from "../repositories/urlsRepository.js";
 
 import { nanoid } from "nanoid";
 

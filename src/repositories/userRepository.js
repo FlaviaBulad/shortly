@@ -1,4 +1,4 @@
-import connection from "../src/database/postgres.js";
+import connection from "../database/postgres.js";
 
 import bcrypt from "bcrypt";
 
@@ -22,3 +22,9 @@ async function createUser(name, email, password) {
 const userRepository = { getUserEmail, getUserId, createUser };
 
 export default userRepository;
+
+// getUserByEmail = getUserEmail
+
+// getUserById = getUserId
+
+// createUser = createUser
